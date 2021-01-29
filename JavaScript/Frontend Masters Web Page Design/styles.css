@@ -1,0 +1,86 @@
+.head {
+  font-size: 64px;
+  text-align: center;
+  font-weight: normal;
+  font-family: "Tahoma";
+  border-bottom: 5px solid gray; 
+  margin-top: 30px;
+}
+
+.page{
+  border-left: 2px solid grey;
+  display: flex;
+  align-items: stretch;
+  flex: 4;
+  background-color: thistle;
+}
+
+.post{
+  border-right: 2px solid grey;
+  border-bottom: 2px solid grey;
+  padding: 0 15px;
+}
+
+.subhead{
+  text-transform: capitalize;
+  font-family: "Tahoma";
+  font-weight: lighter;
+  font-size: 32px;
+  font-style: italic;
+}
+
+.texts{
+  font-family: "Arial";
+  font-size: 16px;
+}
+
+.post{
+  width: 25%;
+}
+
+.post.centie{
+flex: 2;;
+}
+
+img{
+  width: 40%;
+  padding-left: 20px;/* burayı ortalayamadım*/
+  padding-right: 20px;
+}
+
+.link {
+  align-items: center;
+  font-size: 40px;
+  flex: 3;
+  list-style-type: none;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  justify-content: center;
+  padding: 0;
+  margin: 0;
+}
+.link :hover{
+  color: whitesmoke;
+  text-decoration: underline;
+  }
+
+  .line{
+    display: flex;
+    align-items: center; 
+    flex: 3; 
+    padding-left: 20px;
+  }
+
+.first{
+  background-color: blueviolet;
+}
+.second{
+  background-color: chocolate;
+}
+.third{
+  background-color: crimson;
+}
+.fourth{
+  background-color: yellowgreen;
+}
