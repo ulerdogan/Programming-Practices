@@ -5,6 +5,6 @@ import (
 )
 
 func main() {
-	fmt.Println()
+	fmt.Println("ulas")
 	
 }
