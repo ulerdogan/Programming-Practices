@@ -12,7 +12,7 @@ func main() {
 
 	fmt.Println("about to exit")
 }
-a
+
 func receive(c, q <-chan int) {
 
 	for {
