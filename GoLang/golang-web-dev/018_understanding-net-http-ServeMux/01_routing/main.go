@@ -9,9 +9,9 @@ type hotdog int
 
 func (m hotdog) ServeHTTP(w http.ResponseWriter, req *http.Request) {
 	switch req.URL.Path {
-	case "/dog":
+	case "/dog/":
 		io.WriteString(w, "doggy doggy doggy")
-	case "/cat":
+	case "/cat/":
 		io.WriteString(w, "kitty kitty kitty")
 	}
 }
