@@ -1,0 +1,24 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Register Address</title>
+</head>
+<body>
+
+{{if .Address}}
+
+<h1> Hey, {{.Address}} ! </h1>
+<h2><a href="/balance">See your balance!</a></h2>
+
+{{else}}
+
+<form method="post">
+    <input type="text" name="address" placeholder="0x..."><br>
+    <input type="submit">
+</form>
+    
+{{end}}
+
+</body>
+</html>
