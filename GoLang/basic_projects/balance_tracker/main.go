@@ -25,6 +25,7 @@ type info struct {
 type blnc struct {
 	Amount decimal.Decimal
 	Price  decimal.Decimal
+	Total decimal.Decimal
 }
 
 func init() {
@@ -86,8 +87,8 @@ func balance(w http.ResponseWriter, req *http.Request) {
 		log.Fatal(err)
 	}
 
-	// TODO: 15 is hardcoded - change it by a price api
-	b := blnc{util.ToDecimal(balance, 18), util.ToDecimal(balance, 18).Mul(decimal.NewFromInt(15))}
+	b := blnc{util.ToDecimal(balance, 18), getPrice(), decimal.Zero}
+	b.Total = b.Amount.Mul(b.Price)
 
 	tpl.ExecuteTemplate(w, "balance.gohtml", b)
 }
