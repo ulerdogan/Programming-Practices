@@ -1,11 +1,11 @@
 package main
 
 import (
-	"context"
 	"fmt"
 	"html/template"
 	"log"
 	"net/http"
+	"time"
 
 	"balance_tracker/util"
 
@@ -19,13 +19,12 @@ var client *ethclient.Client
 
 type info struct {
 	Address string
-	// TODO: Add query times and make lower q's
 }
 
 type blnc struct {
 	Amount decimal.Decimal
 	Price  decimal.Decimal
-	Total decimal.Decimal
+	Total  decimal.Decimal
 }
 
 func init() {
@@ -79,17 +78,51 @@ func balance(w http.ResponseWriter, req *http.Request) {
 		http.Redirect(w, req, "/", http.StatusSeeOther)
 	}
 
-	cookie, _ := req.Cookie("account")
+	cookieT, err := req.Cookie("timestamp")
 
-	account := common.HexToAddress(cookie.Value)
-	balance, err := client.BalanceAt(context.Background(), account, nil)
-	if err != nil {
-		log.Fatal(err)
+	if err == http.ErrNoCookie {
+		cookieT = &http.Cookie{
+			Name:  "timestamp",
+			Value: "0",
+			Path:  "/",
+		}
 	}
 
-	b := blnc{util.ToDecimal(balance, 18), getPrice(), decimal.Zero}
-	b.Total = b.Amount.Mul(b.Price)
+	var b blnc
 
+	cookieB, err := req.Cookie("balance")
+	if err == http.ErrNoCookie {
+		cookieB = &http.Cookie{
+			Name:  "balance",
+			Value: time.UnixDate,
+			Path:  "/",
+		}
+		cookieT.Value = time.UnixDate
+	}
+
+	ct, err := time.Parse(time.UnixDate, cookieT.Value)
+	if err != nil {
+		log.Println(err)
+	}
+
+	if time.Since(ct) > (time.Second * 120) {
+		cookieAcc, _ := req.Cookie("account")
+
+		balance := getBalance(common.HexToAddress(cookieAcc.Value))
+
+		b = blnc{balance, getPrice(), decimal.Zero}
+		b.Total = balance.Mul(getPrice())
+		cookieT.Value = time.Now().Format(time.UnixDate)
+
+		cookieB.Value = balance.String()
+	} else {
+		cb, _ := decimal.NewFromString(cookieB.Value)
+		b = blnc{cb, getPrice(), decimal.Zero}
+		b.Total = b.Amount.Mul(getPrice())
+	}
+
+	http.SetCookie(w, cookieT)
+	http.SetCookie(w, cookieB)
 	tpl.ExecuteTemplate(w, "balance.gohtml", b)
 }
 
