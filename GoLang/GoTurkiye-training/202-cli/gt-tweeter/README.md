@@ -77,3 +77,13 @@ Hopefully this information will clarify OAuth essentials for Twitter:
    were for me). Good luck!
 
 > Credit: https://stackoverflow.com/questions/1808855/getting-new-twitter-api-consumer-and-secret-keys
+
+
+------
+
+##commands
+
+cobra init --pkg-name github.com/GoTurkiye/training/${PWD##*/} gt-tweeter
+cobra add follower 'get'
+cobra add list -p 'followerCmd' (sub komut ekleme)
+cobra add list --help 
