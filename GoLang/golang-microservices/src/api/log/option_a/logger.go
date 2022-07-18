@@ -1,7 +1,7 @@
 package option_a
 
 import (
-	"github.com/Sirupsen/logrus"
+	"github.com/sirupsen/logrus"
 	"github.com/federicoleon/golang-microservices/src/api/config"
 	"os"
 	"strings"
