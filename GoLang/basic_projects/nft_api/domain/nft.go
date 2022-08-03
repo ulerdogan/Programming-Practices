@@ -8,7 +8,7 @@ type NftQuery struct {
 }
 
 type NftCheck struct {
-	UserAddr common.Address
-	NftAddr  common.Address
-	Balance string
+	UserAddr common.Address`json:"user_addr"`
+	NftAddr  common.Address`json:"nft_addr"`
+	Balance string`json:"balance"`
 }

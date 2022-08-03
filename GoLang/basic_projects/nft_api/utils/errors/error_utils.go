@@ -27,3 +27,10 @@ func NewBadRequestError(message string) ApiError {
 		AMessage: message,
 	}
 }
+
+func NewInternalServerError(message string) ApiError {
+	return &apiError{
+		AStatus:  http.StatusInternalServerError,
+		AMessage: message,
+	}
+}

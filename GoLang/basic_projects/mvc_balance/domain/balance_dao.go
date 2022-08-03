@@ -7,9 +7,7 @@ import (
 	"github.com/ethereum/go-ethereum/common"
 )
 
-type balanceDao struct {}
 
-var BalanceDao balanceDao
 
 func (blnc *balanceDao) GetBalance(addr common.Address) (*Balance, *utils.ApplicationError) {
 	b, _ := balance.BalanceOf(addr)
