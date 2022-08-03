@@ -7,5 +7,5 @@ import (
 
 func mapUrls() {
 	router.GET("/", status.Status)
-	router.GET("/nft", nfts.GetNfts)
+	router.GET("/check/:nft/:usr", nfts.GetNfts)
 }
