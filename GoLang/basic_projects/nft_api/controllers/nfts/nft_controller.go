@@ -1,7 +1,6 @@
 package nfts
 
 import (
-	"fmt"
 	"nft_api/domain"
 	"nft_api/services"
 	"nft_api/utils/errors"
@@ -16,8 +15,6 @@ import (
 func GetNfts(c *gin.Context) {
 	nftAddr := common.HexToAddress(c.Param("nft"))
 	userAddr := common.HexToAddress(c.Param("usr"))
-
-	fmt.Println("aaaa", nftAddr, userAddr)
 
 	if !(eth_u.IsValidAddress(nftAddr) && eth_u.IsValidAddress(userAddr)) {
 		apiErr := errors.NewBadRequestError("Invalid addresses input")

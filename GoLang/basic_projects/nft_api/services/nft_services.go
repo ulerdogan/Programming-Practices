@@ -21,7 +21,7 @@ func init() {
 func (nq *nftService) GetBalance(NQ domain.NftQuery) (*domain.NftCheck, errors.ApiError) {
 	request, err := ethereum.NftBalance.BalanceOf(NQ)
 	if err != nil {
-		return nil, errors.NewInternalServerError(err.Error())
+		return nil, errors.NewInternalServerError("Balance query errror.")
 	}
 	return request, nil
 }
