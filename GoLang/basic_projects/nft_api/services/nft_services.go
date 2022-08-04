@@ -10,6 +10,7 @@ type nftService struct{}
 
 type reposServiceInterface interface {
 	GetBalance(NQ domain.NftQuery) (*domain.NftCheck, errors.ApiError)
+	MintNfts(request domain.NftRequest) (*domain.NftsMinted, errors.ApiError)
 }
 
 var  NftService reposServiceInterface
@@ -24,4 +25,9 @@ func (nq *nftService) GetBalance(NQ domain.NftQuery) (*domain.NftCheck, errors.A
 		return nil, errors.NewInternalServerError("Balance query errror.")
 	}
 	return request, nil
+}
+
+func (nq *nftService) MintNfts(request domain.NftRequest) (*domain.NftsMinted, errors.ApiError) {
+
+	return nil, nil
 }

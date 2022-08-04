@@ -12,3 +12,12 @@ type NftCheck struct {
 	NftAddr  common.Address`json:"nft_addr"`
 	Balance string`json:"balance"`
 }
+
+type NftRequest struct {
+	ReceiverAddr common.Address `json:"receiver_address"`
+	Amount uint `json:"amount"` 
+}
+
+type NftsMinted struct {
+	TokenIds []string `json:"token_ids"`
+}

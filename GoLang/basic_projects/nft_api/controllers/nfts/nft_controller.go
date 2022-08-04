@@ -32,3 +32,32 @@ func GetNfts(c *gin.Context) {
 
 	c.JSON(http.StatusCreated, response)
 }
+
+func MintNfts(c *gin.Context) {
+	var request domain.NftRequest
+	if err := c.ShouldBindJSON(&request); err != nil {
+		apiErr := errors.NewBadRequestError("Invalid json body")
+		c.JSON(apiErr.Status(), apiErr)
+		return
+	}
+
+	if !eth_u.IsValidAddress(request.ReceiverAddr) {
+		apiErr := errors.NewBadRequestError("Invalid receiver address")
+		c.JSON(apiErr.Status(), apiErr)
+		return
+	}
+
+	if !(request.Amount > 0 && request.Amount <= 5) {
+		apiErr := errors.NewBadRequestError("Invalid mint amount")
+		c.JSON(apiErr.Status(), apiErr)
+		return
+	}
+
+	response, apiErr := services.NftService.MintNfts(request)
+	if apiErr != nil {
+		c.JSON(apiErr.Status(), apiErr)
+		return
+	}
+
+	c.JSON(http.StatusCreated, response)
+}
