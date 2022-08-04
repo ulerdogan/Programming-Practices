@@ -16,4 +16,4 @@ func (u *usersService) GetBalance(addr common.Address) (*domain.Balance, *utils.
 		return nil, err
 	}
 	return balance, nil
-}
+}			

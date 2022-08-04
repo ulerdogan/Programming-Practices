@@ -10,7 +10,7 @@ type nftService struct{}
 
 type reposServiceInterface interface {
 	GetBalance(NQ domain.NftQuery) (*domain.NftCheck, errors.ApiError)
-	MintNfts(request domain.NftRequest) (*domain.NftsMinted, errors.ApiError)
+	MintNfts(R domain.NftRequest) (*domain.NftsMinted, errors.ApiError)
 }
 
 var  NftService reposServiceInterface
@@ -27,7 +27,11 @@ func (nq *nftService) GetBalance(NQ domain.NftQuery) (*domain.NftCheck, errors.A
 	return request, nil
 }
 
-func (nq *nftService) MintNfts(request domain.NftRequest) (*domain.NftsMinted, errors.ApiError) {
+func (nq *nftService) MintNfts(R domain.NftRequest) (*domain.NftsMinted, errors.ApiError) {
+	result, err := ethereum.NftMinter.MintNft(R)
+	if err != nil {
+		return nil, errors.NewInternalServerError("Minting error.")
+	}
 
-	return nil, nil
+	return result, nil
 }

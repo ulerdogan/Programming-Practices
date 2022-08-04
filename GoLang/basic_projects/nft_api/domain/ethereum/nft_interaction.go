@@ -1,7 +1,7 @@
 package ethereum
 
 import (
-	"nft_api/domain/ethereum/c_abigen"
+	"nft_api/domain/ethereum/contracts/nft_interface_contract"
 	"nft_api/domain"
 	"nft_api/utils/errors"
 )
