@@ -2,8 +2,8 @@ package services
 
 import (
 	"nft_api/domain"
-	"nft_api/utils/errors"
 	"nft_api/domain/ethereum"
+	"nft_api/utils/errors"
 )
 
 type nftService struct{}

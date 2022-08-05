@@ -4,6 +4,7 @@ import (
 	"crypto/ecdsa"
 	"log"
 	"nft_api/domain"
+	"math/big"
 
 	"github.com/ethereum/go-ethereum/accounts/abi/bind"
 	"github.com/ethereum/go-ethereum/crypto"
@@ -12,6 +13,7 @@ import (
 var User domain.User
 
 const PRIVATE_KEY string = "PRIVATE_KEY"
+const CHAIN_ID int64 = 43113
 
 func init() {
 
@@ -29,7 +31,10 @@ func init() {
 
 	fromAddress := crypto.PubkeyToAddress(*publicKeyECDSA)
 
-	auth := bind.NewKeyedTransactor(privateKey)
+	auth, err := bind.NewKeyedTransactorWithChainID(privateKey, big.NewInt(CHAIN_ID))
+	if err != nil {
+		log.Fatal(err)
+	}
 
 	User = domain.User{
 		FromAddress: fromAddress,
