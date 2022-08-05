@@ -9,7 +9,7 @@ var Client *ethclient.Client
 
 func init() {
 	var err error
-	Client, err = ethclient.Dial("https://api.avax.network/ext/bc/C/rpc")
+	Client, err = ethclient.Dial("https://api.avax-test.network/ext/bc/C/rpc")
 	if err != nil {
 		log.Fatalln(err)
 		return
