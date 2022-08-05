@@ -15,7 +15,7 @@ type nftMinter struct{}
 
 var NftMinter nftMinter
 
-const CONTRACT_ADDRESS string = "ADDR"
+const CONTRACT_ADDRESS string = "0x57da8bBB52c705b42D700EA68125077845b9637d"
 
 func (n *nftMinter) MintNft(NR domain.NftRequest) (*domain.NftsMinted, errors.ApiError) {
 	instance, err := igotest.NewIgotest(common.HexToAddress(CONTRACT_ADDRESS), Client)
@@ -45,5 +45,5 @@ func (n *nftMinter) MintNft(NR domain.NftRequest) (*domain.NftsMinted, errors.Ap
 		return nil, errors.NewInternalServerError(err.Error())
 	}
 
-	return &domain.NftsMinted{TokenIds: []string{"lrm", "ipsm"}}, nil
+	return &domain.NftsMinted{TokenIds: []string{"1"}}, nil
 }
