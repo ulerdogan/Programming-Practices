@@ -13,7 +13,7 @@ type reposServiceInterface interface {
 	MintNfts(R domain.NftRequest) (*domain.NftsMinted, errors.ApiError)
 }
 
-var  NftService reposServiceInterface
+var NftService reposServiceInterface
 
 func init() {
 	NftService = &nftService{}
@@ -28,10 +28,18 @@ func (nq *nftService) GetBalance(NQ domain.NftQuery) (*domain.NftCheck, errors.A
 }
 
 func (nq *nftService) MintNfts(R domain.NftRequest) (*domain.NftsMinted, errors.ApiError) {
-	result, err := ethereum.NftMinter.MintNft(R)
-	if err != nil {
-		return nil, errors.NewInternalServerError("Minting error.")
+	var result *domain.NftsMinted
+	var err error
+	if R.Amount == 1 {
+		result, err = ethereum.NftMinter.MintNft(R)
+		if err != nil {
+			return nil, errors.NewInternalServerError("Minting error.")
+		}
+	} else {
+		result, err = ethereum.NftMinter.MintNfts(R)
+		if err != nil {
+			return nil, errors.NewInternalServerError("Minting error.")
+		}
 	}
-
 	return result, nil
 }

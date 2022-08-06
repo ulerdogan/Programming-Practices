@@ -1,6 +1,11 @@
 package domain
 
-import "github.com/ethereum/go-ethereum/common"
+import (
+	"math/big"
+
+	"github.com/ethereum/go-ethereum/accounts/abi/bind"
+	"github.com/ethereum/go-ethereum/common"
+)
 
 type NftQuery struct {
 	UserAddr common.Address
@@ -8,16 +13,22 @@ type NftQuery struct {
 }
 
 type NftCheck struct {
-	UserAddr common.Address`json:"user_addr"`
-	NftAddr  common.Address`json:"nft_addr"`
-	Balance string`json:"balance"`
+	UserAddr common.Address `json:"user_addr"`
+	NftAddr  common.Address `json:"nft_addr"`
+	Balance  string         `json:"balance"`
 }
 
 type NftRequest struct {
 	ReceiverAddr common.Address `json:"receiver_address"`
-	Amount uint `json:"amount"` 
+	Amount       uint           `json:"amount"`
 }
 
 type NftsMinted struct {
 	TokenIds []string `json:"token_ids"`
+}
+
+type AccData struct {
+	Nonce    uint64
+	GasPrice *big.Int
+	UserAuth *bind.TransactOpts
 }
