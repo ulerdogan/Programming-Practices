@@ -87,7 +87,7 @@ func (n *nftMinter) MintNfts(NR domain.NftRequest) (*domain.NftsMinted, errors.A
 
 	for i := 0; i < int(NR.Amount); i++ {
 		wg.Add(1)
-		go n.MintNftConc(NR.ReceiverAddr, uint(i), &wg, &s)
+		go n.MintNftConc(NR.ReceiverAddr, i, &wg, &s)
 	}
 
 	wg.Wait()
@@ -96,11 +96,19 @@ func (n *nftMinter) MintNfts(NR domain.NftRequest) (*domain.NftsMinted, errors.A
 	return &domain.NftsMinted{TokenIds: s}, nil
 }
 
-func (n *nftMinter) MintNftConc(receiver common.Address, i uint, wg *sync.WaitGroup, s *[]string) {
+func (n *nftMinter) MintNftConc(receiver common.Address, i int, wg *sync.WaitGroup, s *[]string) {
+	lock := sync.Mutex{}
+	
 	_, err := Instance.Mint(accData.UserAuth, receiver)
+	fmt.Println("NNC", accData.UserAuth.Nonce, "ERR", err == nil)
 	if err == nil {
+		lock.Lock()
 		*s = append(*s, fmt.Sprintf("%d", i+1))
+		lock.Unlock()
 	}
-
+	
+	lock.Lock()
+	accData.UserAuth.Nonce.Add((accData.UserAuth).Nonce, big.NewInt(1))
+	lock.Unlock()
 	wg.Done()
 }
