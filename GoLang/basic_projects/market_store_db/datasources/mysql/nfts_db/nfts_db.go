@@ -1,6 +1,7 @@
 package nfts_db
 
 import (
+	"github.com/go-sql-driver/mysql"
 	"database/sql"
 	"fmt"
 	"os"
@@ -34,4 +35,6 @@ func init() {
 	if err = Client.Ping(); err != nil {
 		panic(err)
 	}
+	_ = mysql.SetLogger(nil)
+	//mysql.SetLogger(logger.GetLogger())
 }
