@@ -13,5 +13,7 @@ func mapUrls() {
 	_ = notImplemented
 	
 	router.GET("/status", status.Status)
+	router.GET("/nfts/:id", nfts.Get)
+
 	router.POST("/nfts", nfts.Create)
 }

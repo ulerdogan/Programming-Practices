@@ -11,6 +11,7 @@ type nftsService struct{}
 
 type nftsServiceInterface interface {
 	CreateListing(nfts.Listing) (*nfts.Listing, rest_errors.RestErr)
+	GetListing(id int64) (*nfts.Listing, rest_errors.RestErr)
 }
 
 func (l *nftsService) CreateListing(listing nfts.Listing) (*nfts.Listing, rest_errors.RestErr) {
@@ -23,4 +24,13 @@ func (l *nftsService) CreateListing(listing nfts.Listing) (*nfts.Listing, rest_e
 	}
 	
 	return &listing, nil
+}
+
+func (l *nftsService) GetListing(id int64) (*nfts.Listing, rest_errors.RestErr) {
+	nft := &nfts.Listing{Id: id}
+	if err := nft.Get(); err != nil {
+		return nil, err
+	}
+
+	return nft, nil
 }
