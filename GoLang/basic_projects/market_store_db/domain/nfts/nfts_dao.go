@@ -10,6 +10,7 @@ import (
 const (
 	queryInsertListing = "INSERT INTO nfts(owner_address, nft_address, nft_id, price_wei, deadline) VALUES(?, ?, ?, ?, ?);"
 	queryGetListing = "SELECT id, owner_address, nft_address, nft_id, price_wei, deadline FROM nfts WHERE id=?;"
+	queryDeleteListing = "DELETE FROM nfts WHERE id=?;"
 )
 
 func (listing *Listing) Save() rest_errors.RestErr {
@@ -46,5 +47,18 @@ func(listing *Listing) Get() rest_errors.RestErr {
 		return rest_errors.NewInternalServerError("error when trying to get listing by id", errors.New("database error"))
 	}
 
+	return nil
+}
+
+func (listing *Listing) Delete() rest_errors.RestErr {
+	stmt, err := nfts_db.Client.Prepare(queryDeleteListing)
+	if err != nil {
+		return rest_errors.NewInternalServerError("error when trying to prepare delete listing statement", errors.New("database error"))
+	}
+	defer stmt.Close()
+
+	if _, err = stmt.Exec(listing.Id); err != nil {
+		return rest_errors.NewInternalServerError("error when trying to delete user", errors.New("database error"))
+	}
 	return nil
 }

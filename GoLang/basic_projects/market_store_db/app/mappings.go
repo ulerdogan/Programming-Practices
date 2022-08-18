@@ -16,4 +16,6 @@ func mapUrls() {
 	router.GET("/nfts/:id", nfts.Get)
 
 	router.POST("/nfts", nfts.Create)
+	
+	router.DELETE("/nfts/:id", nfts.Delete)
 }

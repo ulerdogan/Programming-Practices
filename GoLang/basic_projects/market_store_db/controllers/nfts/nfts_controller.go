@@ -53,7 +53,16 @@ func Create(c *gin.Context) {
 }
 
 func Delete(c *gin.Context) {
+	id, idErr := checkId(c.Param("id"))
+	if idErr != nil {
+		c.JSON(idErr.Status(), idErr)
+		return
+	}
 
+	if err := services.NftsService.DeleteListing(id); err != nil {
+		c.JSON(err.Status(), err)
+		return
+	}
 }
 
 func Update(c *gin.Context) {
