@@ -66,6 +66,28 @@ func Delete(c *gin.Context) {
 }
 
 func Update(c *gin.Context) {
+	id, idErr := checkId(c.Param("id"))
+	if idErr != nil {
+		c.JSON(idErr.Status(), idErr)
+		return
+	}
+
+	var listing nfts.Listing
+	if err := c.ShouldBindJSON(&listing); err != nil {
+		restErr := rest_errors.NewBadRequestError("invalid json body")
+		c.JSON(restErr.Status(), restErr)
+		return
+	}
+
+	listing.Id = id
+
+	isPartial := c.Request.Method == http.MethodPatch
+	result, err := services.NftsService.UpdateListing(isPartial, listing)
+	if err != nil {
+		c.JSON(err.Status(), err)
+		return
+	}
+	c.JSON(http.StatusOK, result)
 
 }
 
