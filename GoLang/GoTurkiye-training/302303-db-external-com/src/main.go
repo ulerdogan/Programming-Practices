@@ -36,6 +36,10 @@ func main() {
 		panic(dbErr)
 	}
 
+	if err := db.Ping(); err != nil {
+		panic(err)
+	}
+	
 	cityRepo := repository.NewRepo(db)
 	rabbitmq := brokers.NewRabbitMQ()
 	redisCache := cache.NewRedis()
