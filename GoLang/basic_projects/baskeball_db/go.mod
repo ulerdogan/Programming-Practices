@@ -1,4 +1,4 @@
-module techschool/simplebank
+module basketball_db
 
 go 1.20
 

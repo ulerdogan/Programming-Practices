@@ -1,0 +1,55 @@
+Project basketball {
+  database_type: 'PostgreSQL'
+  Note: '''
+    # Basketball DB
+  '''
+}
+
+
+Table players as P {
+  id bigserial [pk]
+  name varchar [not null]
+  role roles [not null]
+  team bigint [ref: > T.id]
+  created_at timestamptz  [not null, default: `now()`]
+  
+  Indexes {
+    name
+    (role, team) [name:'roles_in_team']
+  }
+}
+
+Enum roles {
+  guard
+  forward
+  center
+}
+
+Table coaches as C {
+  id bigserial [pk]
+  username varchar [not null, unique]
+  hashed_password varchar [not null]
+  created_at timestamptz [not null, default: `now()`]
+  
+  Indexes {
+    username
+  }
+}
+
+Table teams as T {
+  id bigserial [pk]
+  coach_id bigint [ref: - C.id, not null]
+  wins integer [not null, default: 0]
+  created_at timestamptz [not null, default: `now()`]
+  
+  Indexes {
+    coach_id
+  }
+}
+
+Table transfers as PT {
+  id bigserial [pk]
+  player bigint [ref: > P.id, not null]
+  from_team bigint [ref: > T.id, not null]
+  to_team bigint [ref: > T.id, not null]
+}
