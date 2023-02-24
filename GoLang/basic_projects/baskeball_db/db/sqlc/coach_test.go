@@ -28,10 +28,10 @@ func TestCreateCoach(t *testing.T) {
 	require.NotEmpty(t, coach)
 }
 
-func TestGetCoach(t *testing.T) {
+func TestGetCoachByUsername(t *testing.T) {
 	c := createRandomCoach(t)
 
-	ct, err := testQueries.GetCoach(context.Background(), c.Username)
+	ct, err := testQueries.GetCoachByUsername(context.Background(), c.Username)
 	require.NoError(t, err)
 	require.NotEmpty(t, ct)
 	require.Equal(t, c.ID, ct.ID)
@@ -62,7 +62,7 @@ func TestDeleteCoach(t *testing.T) {
 	err := testQueries.DeleteCoach(context.Background(), c.Username)
 	require.NoError(t, err)
 
-	ct, err := testQueries.GetCoach(context.Background(), c.Username)
+	ct, err := testQueries.GetCoachByUsername(context.Background(), c.Username)
 	require.Error(t, err)
 	require.EqualError(t, err, sql.ErrNoRows.Error())
 	require.Empty(t, ct)

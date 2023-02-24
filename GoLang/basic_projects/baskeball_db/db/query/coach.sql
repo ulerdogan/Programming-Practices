@@ -6,9 +6,13 @@ INSERT INTO coaches (
   $1, $2
 ) RETURNING *;
 
--- name: GetCoach :one
+-- name: GetCoachByUsername :one
 SELECT * FROM coaches
 WHERE username = $1 LIMIT 1;
+
+-- name: GetCoachById :one
+SELECT * FROM coaches
+WHERE id = $1 LIMIT 1;
 
 -- name: UpdateCoachPassword :one
 UPDATE coaches

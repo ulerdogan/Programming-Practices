@@ -45,13 +45,30 @@ func (q *Queries) DeleteCoach(ctx context.Context, username string) error {
 	return err
 }
 
-const getCoach = `-- name: GetCoach :one
+const getCoachById = `-- name: GetCoachById :one
+SELECT id, username, hashed_password, created_at FROM coaches
+WHERE id = $1 LIMIT 1
+`
+
+func (q *Queries) GetCoachById(ctx context.Context, id int64) (Coach, error) {
+	row := q.db.QueryRowContext(ctx, getCoachById, id)
+	var i Coach
+	err := row.Scan(
+		&i.ID,
+		&i.Username,
+		&i.HashedPassword,
+		&i.CreatedAt,
+	)
+	return i, err
+}
+
+const getCoachByUsername = `-- name: GetCoachByUsername :one
 SELECT id, username, hashed_password, created_at FROM coaches
 WHERE username = $1 LIMIT 1
 `
 
-func (q *Queries) GetCoach(ctx context.Context, username string) (Coach, error) {
-	row := q.db.QueryRowContext(ctx, getCoach, username)
+func (q *Queries) GetCoachByUsername(ctx context.Context, username string) (Coach, error) {
+	row := q.db.QueryRowContext(ctx, getCoachByUsername, username)
 	var i Coach
 	err := row.Scan(
 		&i.ID,

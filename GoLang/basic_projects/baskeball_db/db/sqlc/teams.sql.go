@@ -56,6 +56,47 @@ func (q *Queries) GetTeam(ctx context.Context, id int64) (Team, error) {
 	return i, err
 }
 
+const getTeamByCoach = `-- name: GetTeamByCoach :one
+SELECT id, coach_id, wins, created_at FROM teams
+WHERE coach_id = $1 LIMIT 1
+`
+
+func (q *Queries) GetTeamByCoach(ctx context.Context, coachID int64) (Team, error) {
+	row := q.db.QueryRowContext(ctx, getTeamByCoach, coachID)
+	var i Team
+	err := row.Scan(
+		&i.ID,
+		&i.CoachID,
+		&i.Wins,
+		&i.CreatedAt,
+	)
+	return i, err
+}
+
+const increaseWinTeam = `-- name: IncreaseWinTeam :one
+UPDATE teams
+SET wins = wins + $2
+WHERE id = $1
+RETURNING id, coach_id, wins, created_at
+`
+
+type IncreaseWinTeamParams struct {
+	ID   int64 `json:"id"`
+	Wins int32 `json:"wins"`
+}
+
+func (q *Queries) IncreaseWinTeam(ctx context.Context, arg IncreaseWinTeamParams) (Team, error) {
+	row := q.db.QueryRowContext(ctx, increaseWinTeam, arg.ID, arg.Wins)
+	var i Team
+	err := row.Scan(
+		&i.ID,
+		&i.CoachID,
+		&i.Wins,
+		&i.CreatedAt,
+	)
+	return i, err
+}
+
 const listTeams = `-- name: ListTeams :many
 SELECT id, coach_id, wins, created_at FROM teams
 ORDER BY id

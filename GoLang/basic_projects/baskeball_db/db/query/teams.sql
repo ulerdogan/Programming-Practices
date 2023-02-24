@@ -9,6 +9,10 @@ INSERT INTO teams (
 SELECT * FROM teams
 WHERE id = $1 LIMIT 1;
 
+-- name: GetTeamByCoach :one
+SELECT * FROM teams
+WHERE coach_id = $1 LIMIT 1;
+
 -- name: ListTeams :many
 SELECT * FROM teams
 ORDER BY id
@@ -24,3 +28,9 @@ RETURNING *;
 -- name: DeleteTeam :exec
 DELETE FROM teams
 WHERE id = $1;
+
+-- name: IncreaseWinTeam :one
+UPDATE teams
+SET wins = wins + $2
+WHERE id = $1
+RETURNING *;
