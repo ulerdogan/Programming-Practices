@@ -65,3 +65,33 @@ docker exec -it techmaster psql -U root simple_bank
 - download sqlc ```brew install sqlc```
 
 - generate sqlc files by ```sqlc init```, add+edit tags, create folders, write query, then ```sqlc generate```
+
+### docker settings
+
+```
+// prep Dockerfile
+
+// build image
+docker build -t basketball_db:latest .
+
+// run image by setting IPs (docker network inspect container-name)
+	docker run --name b_db -p 8080:8080 -e GIN_MODE=release -e DB_SOURCE="postgresql://root:basketball@172.17.0.3:5432/b_db?sslmode=disable" basketball_db 
+
+// create network
+docker network create bdb-network     
+
+// connect container to network
+docker network connect bdb-network basketball
+
+// inspect network
+docker network inspect bdb-network
+
+// run image by network name and db image instead of the IP
+	docker run --name b_db --network bdb-network -p 8080:8080 -e GIN_MODE=release -e DB_SOURCE="postgresql://root:basketball@basketball:5432/b_db?sslmode=disable" basketball_db 
+```
+
+```
+// prep shell script to configure docker
+touch start.sh
+chmod +x start.sh
+```
